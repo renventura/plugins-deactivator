@@ -53,12 +53,17 @@ class Plugins_Deactivator {
 
 		$this->option_key = 'plugins_deactivator_active_plugins_backup';
 
-		add_action( 'pre_current_active_plugins', array( $this, 'add_deactivate_button' ) );
+		add_action( 'pre_current_active_plugins', array( $this, 'add_button' ) );
 		add_action( 'admin_init', array( $this, 'deactivate_plugins' ) );
 		add_action( 'admin_init', array( $this, 'reactivate_plugins' ) );
 	}
 
-	public function add_deactivate_button( $plugins ) {
+	/**
+	 * Adds the deactivate and reactivate buttons
+	 *
+	 * @return void
+	 */
+	public function add_button() {
 		?>
 		<div id="plugin-deactivator">
 			<?php if ( ! empty( $_REQUEST['plugins_deactivated'] ) ) : ?>
@@ -85,6 +90,11 @@ class Plugins_Deactivator {
 		<?php
 	}
 
+	/**
+	 * Process request to deactivate plugins
+	 *
+	 * @return void
+	 */
 	public function deactivate_plugins() {
 
 		if ( ! isset( $_GET['plugins-deactivator'] ) || 'deactivate' !== $_GET['plugins-deactivator'] ) {
@@ -111,6 +121,11 @@ class Plugins_Deactivator {
 		$_REQUEST['plugins_deactivated'] = count( $active_plugins );
 	}
 
+	/**
+	 * Process request to reactivate plugins
+	 *
+	 * @return void
+	 */
 	public function reactivate_plugins() {
 
 		if ( ! isset( $_GET['plugins-deactivator'] ) || 'reactivate' !== $_GET['plugins-deactivator'] ) {
@@ -137,6 +152,11 @@ class Plugins_Deactivator {
 endif;
 
 add_action( 'plugins_loaded', 'plugins_deactivator_boot' );
+/**
+ * Initialize the plugin
+ *
+ * @return void
+ */
 function plugins_deactivator_boot() {
 	new Plugins_Deactivator;
 }
