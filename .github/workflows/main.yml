@@ -1,0 +1,2 @@
+- name: WordPress Plugin Readme/Assets Update
+  uses: 10up/action-wordpress-plugin-asset-update@1.4.1
