@@ -3,7 +3,7 @@
  * Plugin Name: Plugins Deactivator
  * Plugin URI: #
  * Description: Disables all plugins with one click. Remembers which plugins were active so they can also be re-activated with one click.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Ren Ventura
  * Author URI: https://renventura.com
  * Text Domain: plugins-deactivator
@@ -110,7 +110,9 @@ class Plugins_Deactivator {
 
 		// Skip this plugin
 		$this_plugin_index = array_search( plugin_basename( __FILE__ ), $active_plugins );
-		unset( $active_plugins[$this_plugin_index] );
+		if ( false !== $this_plugin_index ) {
+			unset( $active_plugins[$this_plugin_index] );
+		}
 
 		// Store the currently active plugins
 		update_option( $this->option_key, $active_plugins );
@@ -137,7 +139,7 @@ class Plugins_Deactivator {
 		}
 
 		// Get the plugins that were active
-		$active_plugins = get_option( $this->option_key );		
+		$active_plugins = get_option( $this->option_key );
 
 		// Reactivate all the plugins
 		activate_plugins( $active_plugins, '', false, true );
